@@ -11,18 +11,18 @@ export async function POST(
         const { userId } = auth()
         const body = await req.json()
 
-        const { label, imageUrl } = body
+        const { name, value } = body
 
         if(!userId) {
             return new NextResponse('No autenticado', { status: 401 })
         }
 
-        if(!label) {
-            return new NextResponse('El nombre de la imagen de portada es requerido', { status: 400 })
+        if(!name) {
+            return new NextResponse('El nombre del color es requerido', { status: 400 })
         }
 
-        if(!imageUrl) {
-            return new NextResponse('La imagen de portada es requerida', { status: 400 })
+        if(!value) {
+            return new NextResponse('El valor del color es requerido', { status: 400 })
         }
 
         if (!params.storeId) {
@@ -41,19 +41,19 @@ export async function POST(
             return new NextResponse('No autorizado', { status: 403 })
         }
 
-        const billboard = await prismadb.billboard.create({
+        const color = await prismadb.color.create({
             data: {
-                label,
-                imageUrl,
+                name,
+                value,
                 storeId: params.storeId
 
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(color)
 
     } catch (error) {
-        console.log('[BILLBOARDS_POST]', error)
+        console.log('[COLORS_POST]', error)
         return new NextResponse('Error interno', { status: 500 })
     }
 }
@@ -68,16 +68,16 @@ export async function GET(
             return new NextResponse('El Id de la tienda es requerido', { status: 400 })
         }
 
-        const billboards = await prismadb.billboard.findMany({
+        const colors = await prismadb.color.findMany({
             where: {
                 storeId: params.storeId
             }
         })
 
-        return NextResponse.json(billboards)
+        return NextResponse.json(colors)
 
     } catch (error) {
-        console.log('[BILLBOARDS_GET]', error)
+        console.log('[COLORS_GET]', error)
         return new NextResponse('Error interno', { status: 500 })
     }
 }

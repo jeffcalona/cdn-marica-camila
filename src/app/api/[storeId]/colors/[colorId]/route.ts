@@ -5,52 +5,52 @@ import prismadb from "@/lib/prismadb"
 
 export async function GET(
     req: Request,
-    { params } : { params: { billboardId: string } }
+    { params } : { params: { colorId: string } }
 ) {
     try {
 
-        if(!params.billboardId) {
-            return new NextResponse('El id del tablero es requerido', { status: 400 })
+        if(!params.colorId) {
+            return new NextResponse('El id del color es requerido', { status: 400 })
         }
 
-        const billboard = await prismadb.billboard.findUnique({
+        const color = await prismadb.color.findUnique({
             where: {
-                id: params.billboardId
+                id: params.colorId
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(color)
 
     } catch (error) {
-        console.log('BILLBOARD_GET', error)
+        console.log('COLOR_GET', error)
         return new NextResponse('Error interno', { status: 500 })
     }
 }
 
 export async function PATCH(
     req: Request,
-    { params } : { params: { storeId: string, billboardId: string } }
+    { params } : { params: { storeId: string, colorId: string } }
 ) {
     try {
         const { userId } = auth()
         const body = await req.json()
 
-        const { label, imageUrl } = body
+        const { name, value } = body
 
         if(!userId) {
             return new NextResponse('No autenticado', { status: 401 })
         }
 
-        if(!label) {
-            return new NextResponse('El nombre del tablero es requerida', { status: 400 })
+        if(!name) {
+            return new NextResponse('El nombre del color es requerido', { status: 400 })
         }
 
-        if(!imageUrl) {
-            return new NextResponse('La URL de la imagen es requerida', { status: 400 })
+        if(!value) {
+            return new NextResponse('El valor del color es requerido', { status: 400 })
         }
 
-        if(!params.billboardId) {
-            return new NextResponse('El id del tablero es requerido', { status: 400 })
+        if(!params.colorId) {
+            return new NextResponse('El id del color es requerido', { status: 400 })
         }
 
         const storeByUserId = await prismadb.store.findFirst({
@@ -65,27 +65,27 @@ export async function PATCH(
             return new NextResponse('No autorizado')
         }
 
-        const billboard = await prismadb.billboard.updateMany({
+        const color = await prismadb.color.updateMany({
             where: {
-                id: params.billboardId,
+                id: params.colorId,
             },
             data: {
-                label,
-                imageUrl
+                name,
+                value
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(color)
 
     } catch (error) {
-        console.log('BILLBOARD_PATCH', error)
+        console.log('COLOR_PATCH', error)
         return new NextResponse('Error interno', { status: 500 })
     }
 }
 
 export async function DELETE(
     req: Request,
-    { params } : { params: { storeId: string, billboardId: string } }
+    { params } : { params: { storeId: string, colorId: string } }
 ) {
     try {
         const { userId } = auth()
@@ -94,8 +94,8 @@ export async function DELETE(
             return new NextResponse('No autenticado', { status: 401 })
         }
 
-        if(!params.billboardId) {
-            return new NextResponse('El id del tablero es requerido', { status: 400 })
+        if(!params.colorId) {
+            return new NextResponse('El id del color es requerido', { status: 400 })
         }
 
         const storeByUserId = await prismadb.store.findFirst({
@@ -110,16 +110,16 @@ export async function DELETE(
             return new NextResponse('No autorizado')
         }
 
-        const billboard = await prismadb.billboard.deleteMany({
+        const color = await prismadb.color.deleteMany({
             where: {
-                id: params.billboardId
+                id: params.colorId
             }
         })
 
-        return NextResponse.json(billboard)
+        return NextResponse.json(color)
 
     } catch (error) {
-        console.log('BILLBOARD_DELETE', error)
+        console.log('COLOR_DELETE', error)
         return new NextResponse('Error interno', { status: 500 })
     }
 }

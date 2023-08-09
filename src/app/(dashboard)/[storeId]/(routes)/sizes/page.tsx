@@ -1,16 +1,16 @@
 import prismadb from "@/lib/prismadb"
 import { format } from "date-fns"
 
-import { BillboardClient } from "./components/client"
-import { BillboardColumn } from "./components/columns"
+import { SizesClient } from "./components/client"
+import { SizeColumn } from "./components/columns"
 
-const BillboardPage = async ({
+const SizesPage = async ({
     params
 }: {
     params: { storeId: string }
 }) => {
 
-    const billboards = await prismadb.billboard.findMany({
+    const sizes = await prismadb.size.findMany({
         where: {
             storeId: params.storeId
         },
@@ -19,19 +19,20 @@ const BillboardPage = async ({
         }
     })
 
-    const formattedBillboards: BillboardColumn[] = billboards.map((item) => ({
+    const formattedSizes: SizeColumn[] = sizes.map((item) => ({
         id: item.id,
-        label: item.label,
+        name: item.name,
+        value: item.value,
         createdAt: format(item.createdAt, "dd, MMM, yyyy")
     }))
 
     return (
         <main className="flex-col">
             <section className="flex-1 space-y-4 p-8 pt-6">
-                <BillboardClient data={formattedBillboards} />
+                <SizesClient data={formattedSizes} />
             </section>
         </main>
     )
 }
 
-export default BillboardPage
+export default SizesPage

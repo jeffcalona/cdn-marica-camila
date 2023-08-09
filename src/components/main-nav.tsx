@@ -25,6 +25,31 @@ export function MainNav({
             active: pathname === `/${params.storeId}/billboards`
         },
         {
+            href: `/${params.storeId}/products`,
+            label: 'Productos',
+            active: pathname === `/${params.storeId}/products`
+        },
+        {
+            href: `/${params.storeId}/orders`,
+            label: 'Pedidos',
+            active: pathname === `/${params.storeId}/orders`
+        },
+        {
+            href: `/${params.storeId}/categories`,
+            label: 'Categorías',
+            active: pathname === `/${params.storeId}/categories`
+        },
+        {
+            href: `/${params.storeId}/sizes`,
+            label: 'Tallas',
+            active: pathname === `/${params.storeId}/sizes`
+        },
+        {
+            href: `/${params.storeId}/colors`,
+            label: 'Colores',
+            active: pathname === `/${params.storeId}/colors`
+        },
+        {
             href: `/${params.storeId}/settings`,
             label: 'Ajustes',
             active: pathname === `/${params.storeId}/settings`

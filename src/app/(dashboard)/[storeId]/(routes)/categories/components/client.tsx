@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/ui/heading"
 import { useParams, useRouter } from "next/navigation"
 import { Separator } from "@/components/ui/separator"
-import { BillboardColumn, columns } from "./columns"
+import { CategoryColumn, columns } from "./columns"
 import { DataTable } from "@/components/ui/data-table"
 import { ApiList } from "@/components/ui/api-list"
 
-interface BillboardClientProps {
-    data: BillboardColumn[]
+interface CategoryClientProps {
+    data: CategoryColumn[]
 }
 
-export const BillboardClient: React.FC<BillboardClientProps> = ({
+export const CategoryClient: React.FC<CategoryClientProps> = ({
     data
 }) => {
     
@@ -24,17 +24,17 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({
     return (
         <>
             <div className="flex items-center justify-between">
-                <Heading title={`Tableros (${data.length})`} description="Administra los tableros de la tienda" />
-                <Button className="text-xs" onClick={() => router.push(`/${params.storeId}/billboards/new`)}>
+                <Heading title={`Categorías (${data.length})`} description="Administra las categorías de la tienda" />
+                <Button className="text-xs" onClick={() => router.push(`/${params.storeId}/categories/new`)}>
                     <Plus className="w-4 h-4 mr-2" />
-                    Agregar Tablero
+                    Agregar Categoría
                 </Button>
             </div>
             <Separator />
-            <DataTable columns={columns} data={data} searchKey="label" />
-            <Heading title="API" description="API para llamar la portada" />
+            <DataTable searchKey="name" columns={columns} data={data} />
+            <Heading title="API" description="API para llamar las categorías" />
             <Separator />
-            <ApiList entityName="billboards" entityIdName="billboardId" />
+            <ApiList entityName="categories" entityIdName="categoryId" />
         </>
     )
 }

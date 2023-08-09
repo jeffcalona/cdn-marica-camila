@@ -14,8 +14,8 @@ interface ApiAlertProps {
 }
 
 const textMap: Record<ApiAlertProps['variant'], string> = {
-    public: 'Publico',
-    admin: 'Administrador'
+    public: 'Public',
+    admin: 'Admin'
 }
 
 const variantMap: Record<ApiAlertProps['variant'], BadgeProps['variant']> = {
@@ -42,7 +42,7 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
                 <Badge variant={variantMap[variant]} >{textMap[variant]}</Badge>
             </AlertTitle>
             <AlertDescription className="mt-4 flex items-center justify-between">
-                <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono font-semibold text-xs">
+                <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono font-semibold text-xs mr-3">
                     {description}
                 </code>
                 <Button variant='outline' size='sm' onClick={onCopy}>
