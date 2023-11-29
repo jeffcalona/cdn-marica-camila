@@ -11,7 +11,9 @@ export async function POST(
         const { userId } = auth()
         const body = await req.json()
 
-        const { name, descriptionLong, descriptionSmall, price, categoryId, colorId, sizes, images, billboardId } = body
+        console.log('body: ', body)
+
+        const { name, descriptionLong, descriptionSmall, price, quantity, categoryId, colorId, sizes, images, billboardId } = body
 
         if(!userId) {
             return new NextResponse('No autenticado', { status: 401 })
@@ -31,6 +33,10 @@ export async function POST(
 
         if(!price) {
             return new NextResponse('El precio del producto es requerido', { status: 400 })
+        }
+
+        if(!quantity) {
+            return new NextResponse('La cantidad de productos es requerida', { status: 400 })
         }
 
         if(!categoryId) {
@@ -75,6 +81,7 @@ export async function POST(
                 descriptionLong,
                 descriptionSmall,
                 price,
+                quantity,
                 categoryId,
                 billboardId,
                 colorId,
@@ -115,6 +122,8 @@ export async function GET(
         const billboardId = searchParams.get("billboardId") || undefined
         const colorId = searchParams.get("colorId") || undefined
 
+        const limit = searchParams.get("_limit") || undefined
+
         if (!params.storeId) {
             return new NextResponse('El Id de la tienda es requerido', { status: 400 })
         }
@@ -129,12 +138,14 @@ export async function GET(
             include: {
                 images: true,
                 category: true,
+                billboard: true,
                 color: true,
                 sizes: true
             },
             orderBy: {
                 createdAt: 'desc'
-            }
+            },
+            take: Number(limit) || undefined
         })
         
         return NextResponse.json(products)

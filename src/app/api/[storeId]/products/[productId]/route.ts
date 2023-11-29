@@ -42,7 +42,7 @@ export async function PATCH(
         const { userId } = auth()
         const body = await req.json()
 
-        const { name, descriptionLong, descriptionSmall, price, categoryId, billboardId, colorId, sizes, images } = body
+        const { name, descriptionLong, descriptionSmall, price, quantity, categoryId, billboardId, colorId, sizes, images } = body
 
         if(!userId) {
             return new NextResponse('No autenticado', { status: 401 })
@@ -66,6 +66,10 @@ export async function PATCH(
 
         if(!price) {
             return new NextResponse('El precio del producto es requerido', { status: 400 })
+        }
+
+        if(!quantity) {
+            return new NextResponse('La cantidad de productos es requerida', { status: 400 })
         }
 
         if(!categoryId) {
@@ -113,6 +117,7 @@ export async function PATCH(
                 descriptionLong,
                 descriptionSmall,
                 price,
+                quantity,
                 categoryId,
                 billboardId,
                 colorId,

@@ -4,10 +4,10 @@ import { ColumnDef } from "@tanstack/react-table"
 
 export type OrderColumn = {
   id: string
-  phone: string,
   address: string,
-  isPaid: boolean,
+  status: string,
   totalPrice: string,
+  customer: string,
   products: string,
   createdAt: string,
 }
@@ -18,8 +18,8 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Productos",
   },
   {
-    accessorKey: 'phone',
-    header: "Teléfono",
+    accessorKey: 'customer',
+    header: "Cliente",
   },
   {
     accessorKey: 'address',
@@ -27,11 +27,17 @@ export const columns: ColumnDef<OrderColumn>[] = [
   },
   {
     accessorKey: 'totalPrice',
-    header: "Valor Total",
+    header: "Pago Total",
   },
   {
-    accessorKey: 'isPaid',
-    header: "Pagado",
+    accessorKey: 'status',
+    header: "Estatus",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-x-1">
+        <div className="h-3 w-3 rounded-full" style={{ backgroundColor: row.original.status === 'Pagado' ? '#42CE30' : '#DA3131' }}/>
+        {row.original.status}
+      </div>
+    )
   },
   {
     accessorKey: "createdAt",

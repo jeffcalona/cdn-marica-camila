@@ -19,7 +19,7 @@ const ProductsPage = async ({
             category: true,
             color: true,
             sizes: true,
-            billboard: true
+            billboard: true,
         },
         orderBy: {
             createdAt: 'desc'
@@ -36,6 +36,7 @@ const ProductsPage = async ({
         size: item.sizes.map((size) => size.sizenew),
         color: item.color.value,
         billboard: item.billboard.label,
+        quantity: item.quantity,
         createdAt: format(item.createdAt, "dd, MMM, yyyy")
     }))
 

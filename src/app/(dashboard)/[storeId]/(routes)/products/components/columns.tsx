@@ -12,6 +12,7 @@ export type ProductColumn = {
   category: string,
   billboard: string,
   color: string,
+  quantity: number,
   createdAt: string
 }
 
@@ -25,6 +26,10 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Price",
   },
   {
+    accessorKey: 'quantity',
+    header: "Cantidad",
+  },
+  {
     accessorKey: 'size',
     header: "Talla",
   },
@@ -33,7 +38,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
     header: "Color",
     cell: ({ row }) => (
       <div className="flex items-center gap-x-2">
-        {row.original.color}
         <div className="h-6 w-6 rounded-full border" style={{ backgroundColor: row.original.color }}/>
       </div>
     )

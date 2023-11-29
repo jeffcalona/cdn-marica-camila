@@ -40,6 +40,9 @@ const formSchema = z.object({
         message: "Tienes que seleccionar almenos una talla",
     }),
     billboardId: z.string().min(1),
+    quantity: z.coerce.number().min(1, {
+        message: 'La cantidad debe tener un valor'
+    })
 })
 
 type ProductFormValues = z.infer<typeof formSchema>
@@ -52,7 +55,7 @@ interface ProductFormProps {
     categories: Category[],
     colors: Color[],
     sizes: Size[],
-    billboards: Billboard[]
+    billboards: Billboard[],
 }
 
 export const ProductForm: React.FC<ProductFormProps> = ({
@@ -86,6 +89,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             descriptionSmall: '',
             images: [],
             price: 0,
+            quantity: 0,
             sizes: [],
             colorId: '',
             categoryId: '',
@@ -171,6 +175,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                 <FormMessage />
                             </FormItem>
                         )} />
+                        <FormField control={form.control} name='quantity' render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Cantidad</FormLabel>
+                                <FormControl>
+                                    <Input type='number' disabled={loading} placeholder='1' {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
                         <FormField control={form.control} name='billboardId' render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Tablero</FormLabel>
@@ -237,7 +250,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                                         <SelectContent>
                                             {colors.map((color) => (
                                                 <SelectItem key={color.id} value={color.id}>
-                                                    {color.name}
+                                                    <div className='flex items-center space-x-2'>
+                                                        <div style={{backgroundColor: `${color.value}`}} className='w-[20px] h-[20px] rounded-full' />
+                                                        <p className='capitalize'>{color.name}</p>
+                                                    </div>
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>

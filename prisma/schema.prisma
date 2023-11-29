@@ -92,6 +92,7 @@ model Product {
   descriptionSmall  String        @db.VarChar(50)
   descriptionLong   String        @db.VarChar(500)
   price             Decimal       @db.Decimal(65,2)
+  quantity          Int
   sizes             ProductSize[]
   colorId           String
   color             Color         @relation(fields: [colorId], references: [id])
@@ -129,15 +130,15 @@ model ProductSize {
 }
 
 model Order {
-  id         String   @id @default(uuid())
-  storeId    String
-  store      Store    @relation("StoreToOrder", fields: [storeId], references: [id])
-  orderItems OrderItem[]
-  isPaid     Boolean @default(false)
-  phone      String @default("")
-  address    String @default("")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(uuid())
+  storeId     String
+  store       Store    @relation("StoreToOrder", fields: [storeId], references: [id])
+  orderItems  OrderItem[]
+  status      String  @default("Sin pagar")
+  address     String   @default("Dirección del cliente")
+  customer    String   @default("Datos del cliente")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([storeId])
 }
@@ -146,6 +147,8 @@ model OrderItem {
   id        String   @id @default(uuid())
   orderId   String
   order     Order    @relation(fields: [orderId], references: [id])
+  quantity  Int
+  size      String
   productId String
   product   Product  @relation(fields: [productId], references: [id])
 

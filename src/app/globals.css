@@ -78,5 +78,6 @@ html, body, :root {
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
   }
 }
